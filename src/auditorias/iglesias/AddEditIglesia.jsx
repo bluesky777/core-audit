@@ -31,10 +31,11 @@ const AddEdditIglesia = ({history})=> {
             <div className="card-body">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-gruop">
-                            
                         <label>Nombre</label>
                         <input className="form-control" {...register('nombre')} />
-                        { errors.nombre?.message}
+                        <div className="text-danger">
+                            <small>{ errors.nombre?.message}</small>
+                        </div>
                     </div>
                     <div className="input-gruop">
                             

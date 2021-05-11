@@ -29,6 +29,18 @@ const _nav =  [
     icon: 'cil-pencil',
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Uniones',
+    to: '/uniones',
+    icon: 'cil-pencil',
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Asociaciones',
+    to: '/asociaciones',
+    icon: 'cil-pencil',
+  },
+  {
     _tag: 'CSidebarNavDropdown',
     name: 'Pages',
     route: '/pages',

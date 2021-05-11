@@ -2,6 +2,9 @@ import TheLayout from './containers/TheLayout'
 import {HashRouter, Switch, Route} from "react-router-dom";
 import React from 'react'
 import '../scss/style.scss';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '@coreui/icons/css/all.css';
 
 
 const loading = (
@@ -16,6 +19,7 @@ const App = () => {
     return (
         <HashRouter>
             <React.Suspense fallback={loading}>
+                <ToastContainer />
                 <Switch>
                     <Route exact path="/login" name="Login Page"
                         render={ props => <Login {...props}/>}/>
