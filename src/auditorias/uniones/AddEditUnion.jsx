@@ -14,7 +14,7 @@ const schema = yup.object().shape({
   });
 
 
-    const AddEditIglesia = ({history, match})=> {
+    const AddEditUnion = ({history, match})=> {
 
     const id = match.params.id;
     const isAddMode = !id;
@@ -23,7 +23,7 @@ const schema = yup.object().shape({
         resolver: yupResolver(schema)
     })
 
-    const refFire = useFirestore().collection('iglesias');
+    const refFire = useFirestore().collection('uniones');
 
     const onSubmit =  (datos)=> {
         return isAddMode
@@ -34,8 +34,8 @@ const schema = yup.object().shape({
     const crear = async (datos) => {
         console.log(datos)
         await refFire.doc().set(datos)
-        toast('Iglesia Creada.')
-        history.push('/iglesias')
+        toast('Unión Creada.')
+        history.push('/uniones')
 
     }
 
@@ -43,18 +43,18 @@ const schema = yup.object().shape({
         console.log(datos)
         await refFire.doc(id).set(datos)
         toast('Unión Modificada.')
-        history.push('/iglesias')
+        history.push('/uniones')
 
     }
 
     const onCancelar = ()=> {
-        history.push('/iglesias')
+        history.push('/uniones')
     }
 
     useEffect(() => {
         const traerDatos = async ()=> {
             const res = await (await refFire.doc(id).get()).data()
-            const fields = ['nombre', 'codigo', 'distrito_id', 'tipo', 'zona']
+            const fields = ['nombre', 'codigo', 'presidente', 'pais']
             fields.forEach(field => setValue(field, res[field]))
         }
 
@@ -68,11 +68,10 @@ const schema = yup.object().shape({
             <div className="card-body">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-gruop">
+                            
                         <label>Nombre</label>
                         <input className="form-control" {...register('nombre')} />
-                        <div className="text-danger">
-                            <small>{ errors.nombre?.message}</small>
-                        </div>
+                        { errors.nombre?.message}
                     </div>
                     <div className="input-gruop">
                             
@@ -81,18 +80,13 @@ const schema = yup.object().shape({
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Distrito_id</label>
-                        <input className="form-control" {...register('distrito_id')} />
+                        <label>Presidente</label>
+                        <input className="form-control" {...register('presidente')} />
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Tipo</label>
-                        <input className="form-control" {...register('tipo')} />
-                    </div>
-                    <div className="input-gruop">
-                            
-                        <label>Zona</label>
-                        <input className="form-control" {...register('zona')} />
+                        <label>País</label>
+                        <input className="form-control" {...register('pais')} />
                     </div>
 
                     <button className="btn btn-primary" type="submit">Guardar</button>
@@ -103,4 +97,4 @@ const schema = yup.object().shape({
     )
 }
 
-export default AddEditIglesia
+export default AddEditUnion
