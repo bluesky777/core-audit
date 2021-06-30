@@ -53,6 +53,12 @@ const _nav =  [
     icon: 'cil-pencil',
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Datos auditoría',
+    to: '/datos-auditoria',
+    icon: 'cil-pencil',
+  },
+  {
     _tag: 'CSidebarNavDropdown',
     name: 'Pages',
     route: '/pages',

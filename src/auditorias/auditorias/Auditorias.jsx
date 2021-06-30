@@ -2,6 +2,7 @@ import { useEffect, useState} from 'react';
 import { useFirestore } from 'reactfire';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FaPen, FaTrash, FaPlus } from 'react-icons/fa'
 
 
 const Auditorias = ({history}) => {
@@ -44,7 +45,7 @@ const Auditorias = ({history}) => {
         let batch = refFire.batch();
         auditorias.forEach( (audit) => {
             let elem = refFire.collection('auditorias').doc(audit.id)
-            const actual = audit.id == id ? true : false;
+            const actual = audit.id === id ? true : false;
             batch.update(elem, { actual})
         })
         await batch.commit();
@@ -56,7 +57,10 @@ const Auditorias = ({history}) => {
         <div className="card">
             <div className="card-body">
                 <h2 className="card-title">Auditoria </h2>
-                <Link className="btn btn-primary" to="/auditorias/add">Crear</Link>
+                <Link className="btn btn-primary" to="/auditorias/add">
+                    <FaPlus style={{ marginRight: '5px', marginTop: '-3px' }} />
+                    Crear
+                </Link>
 
                     <table className="table table-striped table-sm">
                         <thead>
@@ -93,10 +97,10 @@ const Auditorias = ({history}) => {
                                                 history.push(`/auditorias/edit/${audit.id}`)
                                             }} 
                                             className="btn btn-success btn-sm">
-                                                <i className ="cil-peniel"></i>
+                                                <FaPen />
                                             </button>
                                             <button onClick={() => eliminar(audit.id)} className="btn btn-danger btn-sm"> 
-                                                <i className="cil-trash"></i>    
+                                                <FaTrash />
                                             </button>
                                         </td>
                                     </tr>
