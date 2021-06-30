@@ -1,7 +1,8 @@
 import { useEffect, useState} from 'react';
 import { useFirestore } from 'reactfire';
 import { toast } from 'react-toastify';
-import { FaPlus } from 'react-icons/fa'
+
+import SelectAnio from './SelectAnio'
 
 
 const DatosAuditorias = ({history}) => {
@@ -12,7 +13,7 @@ const DatosAuditorias = ({history}) => {
     const [auditorias, setAuditorias] = useState([])
     const [auditoriaActual, setAuditoriaActual] = useState({})
     const [libMensuales, setLibMensuales] = useState([])
-    const [datosNewLibroMes, setDatosNewLibroMes] = useState({})
+    
 
 
     useEffect(() => {
@@ -43,7 +44,7 @@ const DatosAuditorias = ({history}) => {
             })
             
             setAuditorias(auditoriasFix)
-
+            toast.info('Datos traídos.')
 
             
         }
@@ -53,22 +54,7 @@ const DatosAuditorias = ({history}) => {
     }, [refFire])
 
 
-    const handlerDatosLibroMes = (e) => {
-        const { name } = e.target
-        setDatosNewLibroMes( (datos) => {
-            return {
-                ...datos,
-                [name]: e.target.value
-            }
-        })
-    }
 
-    const crearLibroMes = async () => {
-        console.log('A guardar')
-        const res = await refFire.collection('lib_mensuales').doc().set({...datosNewLibroMes, auditoria_id: auditoriaActual.id})
-        console.log(res)
-        toast.success('Agregado.')
-    }
 
 
 
@@ -97,23 +83,7 @@ const DatosAuditorias = ({history}) => {
                 <div className="card-body">
                     <h5 className="card-title">Libros del mes</h5>
                     
-                    <select onChange={ (e) => handlerDatosLibroMes(e)} name="anio" multiple style={{padding: 5, margin: 5, borderRadius: 5}}>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                    </select>
-
-                    <select onChange={ (e) => handlerDatosLibroMes(e)} name="mes" multiple style={{padding: 5, margin: 5, borderRadius: 5}}>
-                        <option value="Enero">Enero</option>
-                        <option value="Febrero">Febrero</option>
-                        <option value="Noviembre">Noviembre</option>
-                        <option value="Diciembre">Diciembre</option>
-                    </select>
-
-                    <button className="btn btn-primary" onClick={() => crearLibroMes() }>
-                        <FaPlus />
-                    </button>
+                    <SelectAnio auditoriaId={auditoriaActual.id} />
 
 
 
