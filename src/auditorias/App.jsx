@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import '@coreui/icons/css/all.css';
 
 
+
+
 const loading = (
     <div className="pt-3 text-center">
         <div className="sk-spinner sk-spinner-pulse"></div>
@@ -16,6 +18,7 @@ const loading = (
 const Login = React.lazy(() => import ('../views/pages/login/Login'));
 
 const App = () => {
+
     return (
         <HashRouter>
             <React.Suspense fallback={loading}>
@@ -26,7 +29,7 @@ const App = () => {
                     <Route path="/" name="Inicio"
                         render={
                             props => <TheLayout {...props}/>}/>
-                        
+
                 </Switch>
         </React.Suspense>
     </HashRouter>

@@ -1,12 +1,11 @@
-import {useFirestore} from 'reactfire'
 import {toast} from 'react-toastify';
 import {FaPlus} from 'react-icons/fa';
 import {useState} from 'react'
 import {CTooltip, CSelect} from '@coreui/react'
+import { firestoreDB } from '../../firebaseConfig';
+
 
 const SelectAnioMes = ({auditoriaId, getLibrosMensuales}) => {
-
-    const refFire = useFirestore()
     const [datosNewLibroMes, setDatosNewLibroMes] = useState({})
     const mesesCrudo = [
         'Enero',
@@ -53,9 +52,7 @@ const SelectAnioMes = ({auditoriaId, getLibrosMensuales}) => {
             auditoriaId
         }
         setDatosNewLibroMes((estado) => tokeep)
-        console.log(tokeep)
-        const res = await refFire.collection('lib_mensuales').doc().set(tokeep)
-        console.log(res)
+        await firestoreDB.collection('lib_mensuales').doc().set(tokeep)
         getLibrosMensuales()
         toast.success('Agregado.')
     }

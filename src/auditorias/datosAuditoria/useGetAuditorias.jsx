@@ -1,20 +1,18 @@
 import {useState} from 'react'
-import {useFirestore} from "reactfire";
 import {toast} from "react-toastify";
-
+import { useDispatch, useSelector } from 'react-redux'
+import { firestoreDB } from '../../firebaseConfig'
 
 
 const useGetAuditorias = () => {
 
-
-    const [auditorias, setAuditorias] = useState([]);
-    const [auditoriaActual, setAuditoriaActual] = useState({});
-    const refFire = useFirestore();
+    const dispatch = useDispatch()
 
 
     const getAuditorias = async () => { // Traer auditorias y la actual
         const auditoriasFix = [];
-        const auditoriasTemp = await refFire.collection("auditorias").get();
+        const auditoriasTemp = await firestoreDB.collection("auditorias").get();
+        console.log({auditoriasTemp})
         let auditTemp = {};
 
 
@@ -27,19 +25,19 @@ const useGetAuditorias = () => {
             auditoriasFix.push(auditTemp);
 
             if (auditTemp.actual === true) {
-                setAuditoriaActual(auditTemp);
-                // // Traer libros de la auditorias actual
+                dispatch(({type: "set", auditoriaActual: auditTemp}));
+                // Traer libros de la auditorias actual
                 console.log({auditTemp});
 
             }
         });
 
-        setAuditorias(auditoriasFix);
+        dispatch(({type: "set", auditoriasIglesia: auditoriasFix}));
         toast.info("Datos traídos.");
     };
 
 
-    return [auditorias, getAuditorias, auditoriaActual]
+    return getAuditorias
 }
 
 export default useGetAuditorias

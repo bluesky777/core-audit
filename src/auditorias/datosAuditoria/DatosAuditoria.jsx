@@ -1,52 +1,42 @@
 import {useEffect, useState} from "react";
-import {useFirestore} from "reactfire";
 import {toast} from "react-toastify";
 import useGetAuditorias from './useGetAuditorias'
 import EliminarLibMesModal from './EliminarLibMesModal'
 import CardHeaderDatosAudit from './CardHeaderDatosAudit'
 import RowLibMes from './RowLibMes'
-
-
+import { useSelector } from 'react-redux'
 import SelectAnioMes from "./SelectAnioMes";
+import useGetLibrosMensuales from "./useGetLibrosMensuales";
+
 
 const DatosAuditoria = ({history}) => {
-    const refFire = useFirestore();
 
 
     const [libMensuales, setLibMensuales] = useState([]);
     const [showDelModal, setShowDelModal] = useState(false)
-    const [auditorias, getAuditorias, auditoriaActual] = useGetAuditorias()
+
+    const getAuditorias = useGetAuditorias()
     const [libMesSeleccionado, setLibMesSeleccionado] = useState(null)
+    const auditorias = useSelector(state => state.auditoriasIglesia)
+    const auditoriaActual = useSelector(state => state.auditoriaActual)
+    const getLibrosMensuales = useGetLibrosMensuales(auditoriaActual)
 
 
+    console.log({auditorias})
     useEffect(() => {
         getAuditorias();
     }, []);
 
 
     useEffect(() => {
-
-        if (auditoriaActual !== {}) {
+        console.log({auditoriaActual})
+        if (auditoriaActual.id) {
             getLibrosMensuales()
         }
 
     }, [auditoriaActual]);
 
 
-    const getLibrosMensuales = async () => {
-        console.log({auditoriaActual})
-        if (auditoriaActual.id) {
-            const lib_mensualesTemp = await refFire.collection("lib_mensuales").where("auditoriaId", "==", auditoriaActual.id).orderBy("fecha").get();
-            let lib_mensuales = [];
-            lib_mensualesTemp.forEach((snapMens) => lib_mensuales.push({
-                ...snapMens.data(),
-                id: snapMens.id
-            }));
-            setLibMensuales(lib_mensuales);
-            console.log({lib_mensuales});
-        }
-
-    }
 
 
     const handlerInputChange = (e, libMensual, tipo) => {
@@ -73,7 +63,7 @@ const DatosAuditoria = ({history}) => {
     const deleteLibMes = async (libMensual) => {
         try {
 
-            await refFire.collection("lib_mensuales").doc(libMensual.id).delete();
+            //await refFire.collection("lib_mensuales").doc(libMensual.id).delete();
             toast.info('Libro eliminado')
             getLibrosMensuales()
             setShowDelModal(false)
