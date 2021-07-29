@@ -25,7 +25,7 @@ const useGetAuditorias = () => {
             auditoriasFix.push(auditTemp);
 
             if (auditTemp.actual === true) {
-                dispatch(({type: "set", auditoriaActual: auditTemp}));
+                dispatch({type: "set", auditoriaActual: auditTemp});
                 // Traer libros de la auditorias actual
                 console.log({auditTemp});
 

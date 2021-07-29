@@ -4,32 +4,34 @@ import useGetAuditorias from './useGetAuditorias'
 import EliminarLibMesModal from './EliminarLibMesModal'
 import CardHeaderDatosAudit from './CardHeaderDatosAudit'
 import RowLibMes from './RowLibMes'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import SelectAnioMes from "./SelectAnioMes";
 import useGetLibrosMensuales from "./useGetLibrosMensuales";
+import { putLibroMensual } from "./http/getLibrosMensuales";
 
 
 const DatosAuditoria = ({history}) => {
 
 
-    const [libMensuales, setLibMensuales] = useState([]);
     const [showDelModal, setShowDelModal] = useState(false)
 
-    const getAuditorias = useGetAuditorias()
-    const [libMesSeleccionado, setLibMesSeleccionado] = useState(null)
     const auditorias = useSelector(state => state.auditoriasIglesia)
     const auditoriaActual = useSelector(state => state.auditoriaActual)
+    const libMensuales = useSelector(state => state.libMensuales);
+    const dispatch = useDispatch()
+    
+    const getAuditorias = useGetAuditorias()
+    const [libMesSeleccionado, setLibMesSeleccionado] = useState(null)
     const getLibrosMensuales = useGetLibrosMensuales(auditoriaActual)
 
 
-    console.log({auditorias})
     useEffect(() => {
         getAuditorias();
     }, []);
 
 
     useEffect(() => {
-        console.log({auditoriaActual})
+
         if (auditoriaActual.id) {
             getLibrosMensuales()
         }
@@ -49,8 +51,8 @@ const DatosAuditoria = ({history}) => {
         const tempoLibros = libMensuales.map((libMens) => {
             return libMens.id === libMensual.id ? libMensual : libMens
         })
-
-        setLibMensuales(tempoLibros)
+        putLibroMensual(libMensual)
+        dispatch({type: 'set', libMensuales: tempoLibros})
 
     }
 

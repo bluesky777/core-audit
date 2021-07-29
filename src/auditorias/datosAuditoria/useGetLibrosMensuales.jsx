@@ -1,23 +1,24 @@
 import getLibrosMensuales from "./http/getLibrosMensuales";
+import { useDispatch } from 'react-redux'
 
 
 const useGetLibrosMensuales = (auditoriaActual) => {
 
-    if (!auditoriaActual.id) {
-        return [];
-    }
-    console.log(auditoriaActual.id)
+    const dispatch = useDispatch()
+    // console.log({auditoriaActual})
+    // if (!auditoriaActual || !auditoriaActual.id) {
+    //     return [];
+    // }
+
     const getLibros = async () => {
 
         const lib_mensualesTemp =  await getLibrosMensuales(auditoriaActual.id)
-        let lib_mensuales = [];
-        lib_mensualesTemp.forEach((snapMens) => lib_mensuales.push({
+        let libMensuales = [];
+        lib_mensualesTemp.forEach((snapMens) => libMensuales.push({
             ...snapMens.data(),
             id: snapMens.id
         }));
-        console.log({lib_mensuales});
-
-        return lib_mensuales;
+        dispatch({type: 'set', libMensuales});
     };
 
     return getLibros;
