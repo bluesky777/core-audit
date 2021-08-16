@@ -12,18 +12,15 @@ import { icons } from './assets/icons'
 
 import { Provider } from 'react-redux'
 import store from './store'
-//import { FirebaseAppProvider } from 'reactfire'
 import 'firebase/firestore'
 
 React.icons = icons
 
 ReactDOM.render(
   <Suspense fallback={'Loading announcement...'}>
-    {/* <FirebaseAppProvider firebaseConfig={firebaseConfig}> */}
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    {/* </FirebaseAppProvider> */}
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </Suspense>,
   document.getElementById('root')
 );

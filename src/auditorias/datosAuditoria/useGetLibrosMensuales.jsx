@@ -9,7 +9,7 @@ const useGetLibrosMensuales = (auditoriaActual) => {
     // if (!auditoriaActual || !auditoriaActual.id) {
     //     return [];
     // }
-
+    // console.log({auditoriaActual})
     const getLibros = async () => {
 
         const lib_mensualesTemp =  await getLibrosMensuales(auditoriaActual.id)

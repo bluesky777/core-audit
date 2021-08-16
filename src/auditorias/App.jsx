@@ -15,7 +15,7 @@ const loading = (
     </div>
 )
 
-const Login = React.lazy(() => import ('../views/pages/login/Login'));
+const Login = React.lazy(() => import ('./login/Login'));
 
 const App = () => {
 
