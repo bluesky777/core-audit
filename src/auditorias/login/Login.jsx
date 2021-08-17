@@ -33,16 +33,22 @@ const schema = yup.object().shape({
 
 const Login = () => {
 
-  const [valores, setValores] = useState({})
+  const [loading, setLoading] = useState(false)
   
   const { register, handleSubmit, formState:{ errors } } = useForm({
     resolver: yupResolver(schema)
   })
 
 
-  const _onSubmit = (datos) => {
+  const _onSubmit = async (datos) => {
+    if(loading) return
+    setLoading(true)
     console.log(datos)
-    AuthService.login(datos)
+    const res = await AuthService.login(datos)
+    if (res.success) {
+      toast.success('Bienvenido')
+    }
+    setLoading(false)
   }
   
 
@@ -81,7 +87,11 @@ const Login = () => {
                     <CFormText color="danger" className="text-danger help-block">{ errors.password?.message}</CFormText>
                     <CRow className="mt-4">
                       <CCol xs="6">
-                        <CButton type="submit" color="primary" className="px-4">Login</CButton>
+                        <CButton type="submit" color="primary" className="px-4">
+                          { loading 
+                          ? <CIcon name="cil-lock-locked" /> 
+                          : 'Login' }
+                        </CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
                         <CButton color="link" className="px-0">Forgot password?</CButton>

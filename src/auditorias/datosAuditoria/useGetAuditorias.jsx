@@ -1,6 +1,5 @@
-import {useState} from 'react'
 import {toast} from "react-toastify";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { firestoreDB } from '../../firebaseConfig'
 
 

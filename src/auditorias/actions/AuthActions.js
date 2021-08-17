@@ -1,8 +1,16 @@
-const AUTH_ACTIONS = {
-  LOGIN_USER: 'LOGIN_USER',
-  LOGOUT_USER: 'LOGOUT_USER',
-  GET_USER_WITH_TOKEN: 'GET_USER_WITH_TOKEN',
-  GET_USERS: 'GET_USERS',
-}
+import { AUTH_TYPES } from "./AuthTypes";
+import axios from "axios";
 
-export default AUTH_ACTIONS;
+export const loadUser = () => (dispatch, getState) => {
+  dispatch({ type: AUTH_TYPES.LOGIN_LOADING });
+  axios.get("/api/login/load-user").then(
+    (response) => {
+      if (response.data.user) {
+        dispatch({ type: AUTH_TYPES.LOGIN_LOADED, user: response.data.user });
+      }
+    },
+    (err) => {
+      dispatch({ type: AUTH_TYPES.AUTH_ERROR });
+    }
+  );
+};
