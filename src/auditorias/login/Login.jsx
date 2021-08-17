@@ -17,12 +17,12 @@ import {
   CFormGroup
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { useState } from 'react'
-import { AuthService } from '../services/AuthService'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { attempLogin, loadUser } from '../actions/AuthActions'
 
 
 
@@ -33,24 +33,26 @@ const schema = yup.object().shape({
 
 const Login = () => {
 
-  const [loading, setLoading] = useState(false)
-  
+  const isLoading = useSelector((state) => state.isLoading)
+  const dispatch = useDispatch()
+
   const { register, handleSubmit, formState:{ errors } } = useForm({
     resolver: yupResolver(schema)
   })
 
 
   const _onSubmit = async (datos) => {
-    if(loading) return
-    setLoading(true)
+    console.log(isLoading)
+
     console.log(datos)
-    const res = await AuthService.login(datos)
-    if (res.success) {
-      toast.success('Bienvenido')
-    }
-    setLoading(false)
+    // const res = await AuthService.login(datos)
+
+    toast.success('Algo')
+
+    //dispatch(loadUser(datos));
+    dispatch(attempLogin(datos));
   }
-  
+
 
 
   return (
@@ -88,9 +90,9 @@ const Login = () => {
                     <CRow className="mt-4">
                       <CCol xs="6">
                         <CButton type="submit" color="primary" className="px-4">
-                          { loading 
-                          ? <CIcon name="cil-lock-locked" /> 
-                          : 'Login' }
+                          {/* { loading
+                          ? <CIcon name="cil-lock-locked" />
+                          : 'Login' } */}
                         </CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
