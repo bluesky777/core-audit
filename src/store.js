@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { AuthReducer } from "./auditorias/reducers";
-import ReduxThunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import ReduxThunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
   sidebarShow: "responsive",
@@ -19,9 +19,7 @@ const changeState = (state = initialState, { type, ...rest }) => {
   }
 };
 
-const middleware = [
-  ReduxThunk,
-];
+const middleware = [ReduxThunk];
 
 const reducers = combineReducers({
   AuthReducer,
@@ -30,8 +28,6 @@ const reducers = combineReducers({
 
 const store = createStore(
   reducers,
-  composeWithDevTools(
-    applyMiddleware(...middleware)
-  ),
+  composeWithDevTools(applyMiddleware(...middleware))
 );
 export default store;

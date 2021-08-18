@@ -2,7 +2,6 @@ import { AUTH_TYPES } from "./AuthTypes";
 import api from "../http/api";
 
 export const loadUser = () => (dispatch, getState) => {
-  console.log('ENtra load')
   dispatch({ type: AUTH_TYPES.LOGIN_LOADING });
   api.get("/login/load-user").then(
     (response) => {
@@ -17,12 +16,11 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 export const attempLogin = (datos) => (dispatch, getState) => {
-  console.log('ENtra load')
   dispatch({ type: AUTH_TYPES.LOGIN_LOADING });
   api.post("/login/login", datos).then(
     (response) => {
       if (response.data.user) {
-        dispatch({ type: AUTH_TYPES.LOGIN_LOADED, user: response.data.user });
+        dispatch({ type: AUTH_TYPES.LOGIN_SUCCESS, payload: response.data });
       }
     },
     (err) => {

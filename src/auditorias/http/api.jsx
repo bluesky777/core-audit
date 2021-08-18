@@ -1,34 +1,40 @@
-import axios from 'axios';
+import axios from "axios";
 
-const localServer = 'http://localhost/api';
-const globalServer = 'https://audit.micolevirtual.com/audit7-laravel/api';
+const localServer = "http://localhost/api";
+const globalServer = "https://audit.micolevirtual.com/audit7-laravel/api";
 // eslint-disable-next-line no-restricted-globals
-const serverUrl = location.hostname === 'localhost' ? localServer : globalServer;
+const serverUrl =
+  window.location.hostname === "localhost" ? localServer : globalServer;
 
 const request = axios.create({
   baseURL: serverUrl,
-})
+});
 
-request.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('token')
+request.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem("token");
     if (token) {
-      request.headers.Authorization = 'bearer '+token
+      request.headers.Authorization = "Bearer " + token;
     }
 
-    console.log(config);
     return config;
-  }, function (error) {
+  },
+  function (error) {
     // Do something with request error
     return Promise.reject(error);
-  });
+  }
+);
 
 // Add a response interceptor
-request.interceptors.response.use(function (response) {
+request.interceptors.response.use(
+  function (response) {
     // console.log(response);
     return response;
-  }, function (error) {
+  },
+  function (error) {
     // Do something with response error
     return Promise.reject(error);
-  });
+  }
+);
 
 export default request;

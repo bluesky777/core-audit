@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   CButton,
   CCard,
@@ -14,46 +14,39 @@ import {
   CInputGroupText,
   CRow,
   CFormText,
-  CFormGroup
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { attempLogin, loadUser } from '../actions/AuthActions'
-
-
+  CFormGroup,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useDispatch, useSelector } from "react-redux";
+import { attempLogin } from "../actions/AuthActions";
 
 const schema = yup.object().shape({
-  username: yup.string().required('Es requerido'),
-  password: yup.string().required('Es requerido').min(3, 'Su contraseña debe tener al menos 3 caracteres'),
+  username: yup.string().required("Es requerido"),
+  password: yup
+    .string()
+    .required("Es requerido")
+    .min(3, "Su contraseña debe tener al menos 3 caracteres"),
 });
 
 const Login = () => {
+  const isLoading = useSelector((state) => state.AuthReducer.isLoading);
+  const dispatch = useDispatch();
 
-  const isLoading = useSelector((state) => state.isLoading)
-  const dispatch = useDispatch()
-
-  const { register, handleSubmit, formState:{ errors } } = useForm({
-    resolver: yupResolver(schema)
-  })
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const _onSubmit = async (datos) => {
-    console.log(isLoading)
-
-    console.log(datos)
-    // const res = await AuthService.login(datos)
-
-    toast.success('Algo')
-
-    //dispatch(loadUser(datos));
+    if (isLoading) return;
     dispatch(attempLogin(datos));
-  }
-
-
+  };
 
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
@@ -66,7 +59,9 @@ const Login = () => {
                   <CForm onSubmit={handleSubmit(_onSubmit)}>
                     <h1>Login</h1>
 
-                    <p className="text-muted">Sign In to your account</p>
+                    <p className="text-muted">
+                      Ingresa con tu usuario y contraseña
+                    </p>
                     <CFormGroup>
                       <CInputGroup>
                         <CInputGroupPrepend>
@@ -74,9 +69,15 @@ const Login = () => {
                             <CIcon name="cil-user" />
                           </CInputGroupText>
                         </CInputGroupPrepend>
-                        <CInput type="text" {...register('username')} autoComplete="username" />
+                        <CInput
+                          type="text"
+                          {...register("username")}
+                          autoComplete="username"
+                        />
                       </CInputGroup>
-                      <CFormText color="danger" className="help-block">{ errors.username?.message}</CFormText>
+                      <CFormText color="danger" className="help-block">
+                        {errors.username?.message}
+                      </CFormText>
                     </CFormGroup>
                     <CInputGroup className="mt-3">
                       <CInputGroupPrepend>
@@ -84,32 +85,64 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" {...register('password')} autoComplete="current-password" />
+                      <CInput
+                        type="password"
+                        {...register("password")}
+                        autoComplete="current-password"
+                      />
                     </CInputGroup>
-                    <CFormText color="danger" className="text-danger help-block">{ errors.password?.message}</CFormText>
+                    <CFormText
+                      color="danger"
+                      className="text-danger help-block"
+                    >
+                      {errors.password?.message}
+                    </CFormText>
                     <CRow className="mt-4">
                       <CCol xs="6">
                         <CButton type="submit" color="primary" className="px-4">
-                          {/* { loading
-                          ? <CIcon name="cil-lock-locked" />
-                          : 'Login' } */}
+                          {isLoading ? (
+                            <div
+                              className="spinner-border"
+                              style={{ width: "18px", height: "18px" }}
+                              role="status"
+                            >
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          ) : (
+                            "Entrar"
+                          )}
                         </CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">Forgot password?</CButton>
+                        <CButton color="link" className="px-0">
+                          Forgot password?
+                        </CButton>
                       </CCol>
                     </CRow>
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
+              <CCard
+                className="text-white bg-primary py-5 d-md-down-none"
+                style={{ width: "44%" }}
+              >
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
                     <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>Register Now!</CButton>
+                      <CButton
+                        color="primary"
+                        className="mt-3"
+                        active
+                        tabIndex={-1}
+                      >
+                        Register Now!
+                      </CButton>
                     </Link>
                   </div>
                 </CCardBody>
@@ -119,7 +152,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
