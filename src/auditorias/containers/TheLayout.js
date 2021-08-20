@@ -1,4 +1,7 @@
 import React from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadUserFromToken } from '../actions/AuthActions'
 import {
   TheSidebar,
   TheHeader,
@@ -7,6 +10,15 @@ import {
 } from './index'
 
 const TheLayout = () => {
+
+  const dispatch = useDispatch()
+  const auth = useSelector(state => state.AuthReducer)
+
+  useEffect(() => {
+    
+    dispatch(loadUserFromToken())
+
+  }, [])
 
   return (
     <div className="c-app c-default-layout">

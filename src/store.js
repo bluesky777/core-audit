@@ -1,30 +1,12 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { AuthReducer } from "./auditorias/reducers";
+import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-const initialState = {
-  sidebarShow: "responsive",
-  auditoriasIglesia: [],
-  auditoriaActual: {},
-  db: {},
-};
+import { reducers } from "./auditorias/reducers";
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case "set":
-      return { ...state, ...rest };
-    default:
-      return state;
-  }
-};
 
 const middleware = [ReduxThunk];
 
-const reducers = combineReducers({
-  AuthReducer,
-  changeState,
-});
 
 const store = createStore(
   reducers,
