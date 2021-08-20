@@ -11,27 +11,28 @@ import {
   CBreadcrumbRouter,
   CLink,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
+import CIcon from "@coreui/icons-react"
+import { FaRedo } from "react-icons/fa"
 
 // routes config
-import routes from "../../routes";
+import routes from "../../routes"
+import { setSidebarShow } from "../actions/PageActions"
+
 
 const TheHeader = () => {
-  const dispatch = useDispatch();
-  const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
+  const dispatch = useDispatch()
+  const sidebarShow = useSelector(state => state.PageReducer.sidebarShow)
 
   const toggleSidebar = () => {
-    const val = [true, "responsive"].includes(sidebarShow)
-      ? false
-      : "responsive";
-    dispatch({ type: "set", sidebarShow: val });
-  };
+    const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
+    dispatch(setSidebarShow(val))
+  }
 
   const toggleSidebarMobile = () => {
     const val = [false, "responsive"].includes(sidebarShow)
       ? true
       : "responsive";
-    dispatch({ type: "set", sidebarShow: val });
+    dispatch(setSidebarShow(val));
   };
 
   return (
@@ -58,7 +59,7 @@ const TheHeader = () => {
           <CHeaderNavLink to="/users">Users</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink>Settings</CHeaderNavLink>
+          <CHeaderNavLink>Configuración</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 
@@ -70,20 +71,12 @@ const TheHeader = () => {
           routes={routes}
         />
         <div className="d-md-down-none mfe-2 c-subheader-nav">
+          {/* <CLink className="c-subheader-nav-link" href="#">
+            <CIcon name="cil-speech" alt="Configuración" />
+          </CLink> */}
           <CLink className="c-subheader-nav-link" href="#">
-            <CIcon name="cil-speech" alt="Settings" />
-          </CLink>
-          <CLink
-            className="c-subheader-nav-link"
-            aria-current="page"
-            to="/dashboard"
-          >
-            <CIcon name="cil-graph" alt="Dashboard" />
-            &nbsp;Dashboard
-          </CLink>
-          <CLink className="c-subheader-nav-link" href="#">
-            <CIcon name="cil-settings" alt="Settings" />
-            &nbsp;Settings
+            <FaRedo />
+            &nbsp;
           </CLink>
         </div>
       </CSubheader>

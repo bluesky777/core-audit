@@ -14,7 +14,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Theme']
+    _children: ['Panel']
   },
   {
     _tag: 'CSidebarNavItem',
@@ -75,7 +75,18 @@ const _nav =  [
   {
     _tag: 'CSidebarNavDivider',
     className: 'm-2'
-  }
+  },
+
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Salida']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Salir',
+    to: '/logout',
+    icon: 'cil-user',
+  },
 ]
 
 export default _nav

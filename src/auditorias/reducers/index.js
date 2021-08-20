@@ -1,8 +1,10 @@
-// import { combineReducers } from "redux";
+import { combineReducers } from "redux";
 import { AuthReducer } from "./AuthReducer";
+import { PageReducer } from "./PageReducer";
 
-// export const reducer = combineReducers({
-//   AuthReducer,
-// });
+export const reducers = combineReducers({
+    AuthReducer,
+    PageReducer
+});
 
-export { AuthReducer };
+// export { AuthReducer, PageReducer };
