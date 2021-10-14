@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   CButton,
@@ -22,6 +22,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { attempLogin } from "../actions/AuthActions";
+import { useHistory } from "react-router-dom";
 
 const schema = yup.object().shape({
   username: yup.string().required("Es requerido"),
@@ -33,7 +34,9 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const isLoading = useSelector((state) => state.AuthReducer.isLoading);
+  const isLogged = useSelector((state) => state.AuthReducer.isLogged);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const {
     register,
@@ -42,6 +45,12 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (isLogged) {
+      history.push("/");
+    }
+  }, [isLogged, history]);
 
   const _onSubmit = async (datos) => {
     if (isLoading) return;

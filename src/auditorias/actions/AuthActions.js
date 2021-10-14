@@ -1,5 +1,5 @@
 import { AUTH_TYPES } from "./AuthTypes";
-import api from "../http/api";
+import api from "../data/api";
 
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: AUTH_TYPES.LOGIN_LOADING });

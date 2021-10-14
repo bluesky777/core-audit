@@ -4,10 +4,9 @@ import ReduxThunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
-  sidebarShow: "responsive",
+  sidebarShow: false,
   auditoriasIglesia: [],
   auditoriaActual: {},
-  db: {},
 };
 
 const changeState = (state = initialState, { type, ...rest }) => {

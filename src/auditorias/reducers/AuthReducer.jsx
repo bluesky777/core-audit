@@ -1,4 +1,4 @@
-import { AUTH_TYPES } from "src/auditorias/actions/AuthTypes";
+import { AUTH_TYPES } from "../actions/AuthTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
