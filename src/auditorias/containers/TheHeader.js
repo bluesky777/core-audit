@@ -15,16 +15,17 @@ import CIcon from "@coreui/icons-react";
 
 // routes config
 import routes from "../../routes";
+import { setSidebarShow } from "../actions/PageActions";
 
 const TheHeader = () => {
   const dispatch = useDispatch();
-  const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
+  const sidebarShow = useSelector((state) => state.PageReducer.sidebarShow);
 
   const toggleSidebar = () => {
     const val = [true, "responsive"].includes(sidebarShow)
       ? false
       : "responsive";
-    dispatch({ type: "set", sidebarShow: val });
+    dispatch(setSidebarShow(val));
   };
 
   const toggleSidebarMobile = () => {

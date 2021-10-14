@@ -19,7 +19,7 @@ import navigation from "./_nav";
 
 const TheSidebar = () => {
   const dispatch = useDispatch();
-  const show = useSelector((state) => state.changeState.sidebarShow);
+  const show = useSelector((state) => state.PageReducer.sidebarShow);
 
   return (
     <CSidebar

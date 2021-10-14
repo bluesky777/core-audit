@@ -1,15 +1,19 @@
 import { AUTH_TYPES } from "./AuthTypes";
 import api from "../data/api";
 
-export const loadUser = () => (dispatch, getState) => {
+export const loadUserFromToken = () => (dispatch, getState) => {
   dispatch({ type: AUTH_TYPES.LOGIN_LOADING });
-  api.get("/login/load-user").then(
+  
+  if (!localStorage.getItem('token')) {
+    dispatch({ type: AUTH_TYPES.AUTH_ERROR });
+  }
+  
+  api.get("/login/load-user-from-token").then(
     (response) => {
-      if (response.data.user) {
-        dispatch({ type: AUTH_TYPES.LOGIN_LOADED, user: response.data.user });
-      }
-    },
-    (err) => {
+        dispatch({ type: AUTH_TYPES.USER_LOADED_FROM_TOKEN, user: response.data });
+    })
+    .catch((err) => {
+      console.log(err)
       dispatch({ type: AUTH_TYPES.AUTH_ERROR });
     }
   );

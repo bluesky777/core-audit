@@ -29,9 +29,20 @@ export const AuthReducer = (state = initialState, action) => {
       };
       break;
 
+    case AUTH_TYPES.USER_LOADED_FROM_TOKEN:
+      console.log(action);
+
+      state = {
+        ...state,
+        isLoading: false,
+        user: action.user,
+        isLogged: true,
+      };
+      break;
+
     case AUTH_TYPES.LOGIN_FAILED:
     case AUTH_TYPES.AUTH_ERROR:
-      localStorage.removeItem("token");
+      //localStorage.removeItem("token");
       state = {
         ...state,
         user: null,
