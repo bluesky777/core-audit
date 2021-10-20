@@ -1,4 +1,5 @@
 import React from 'react';
+import Logout from './login/Logout';
 
 
 const Dashboard = React.lazy(() => import('../views/dashboard/Dashboard'));
@@ -19,6 +20,7 @@ const DatosAuditoria = React.lazy(() => import('./datosAuditoria/DatosAuditoria'
 const routes = [
   { path: '/', exact: true, name: 'Inico' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/logout', name: 'Saliendo', component: Logout },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/iglesias', exact: true, name: 'Iglesias', component: Iglesias },

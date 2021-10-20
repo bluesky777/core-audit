@@ -13,6 +13,7 @@ import {
 } from "@coreui/react";
 
 import CIcon from "@coreui/icons-react";
+import { setSidebarShow } from "../actions/PageActions";
 
 // sidebar nav config
 import navigation from "./_nav";
@@ -24,7 +25,7 @@ const TheSidebar = () => {
   return (
     <CSidebar
       show={show}
-      onShowChange={(val) => dispatch({ type: "set", sidebarShow: val })}
+      onShowChange={(val) => dispatch(setSidebarShow(val)) }
     >
       <CSidebarBrand className="d-md-down-none" to="/">
         <CIcon

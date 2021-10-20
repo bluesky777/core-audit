@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import request from "../data/api";
 // import { toast } from "react-toastify";
@@ -6,22 +7,31 @@ import { IglesiasRepo } from "../data/repositories/IglesiasRepo";
 
 const Iglesias = ({ history }) => {
   const [iglesias, setIglesias] = useState([]);
+  const user = useSelector(state => state.AuthReducer.user)
+  console.log(user)
 
-  const traerDatos = async () => {
-    const datosIglesias = [];
-    const snapshots = IglesiasRepo(request).get();
-    //   snapshots.docs.forEach((snap) => {
-    //     datosIglesias.push({
-    //       id: snap.id,
-    //       ...snap.data(),
-    //     });
-    //   });
-    setIglesias(datosIglesias);
-  };
+  const traerDatos = useCallback(
+    async () => {
+      if (!user) return
+      
+      const datosIglesias = [];
+      console.log(user)
+
+      const snapshots = await IglesiasRepo(request).get(user.asociacion_id);
+      //   snapshots.docs.forEach((snap) => {
+      //     datosIglesias.push({
+      //       id: snap.id,
+      //       ...snap.data(),
+      //     });
+      //   });
+      setIglesias(datosIglesias);
+    },
+    [user],
+  )
 
   useEffect(() => {
     traerDatos();
-  }, []);
+  }, [traerDatos]);
 
   const eliminar = async (id) => {
     const respuesta = window.confirm("Seguro que quiere eliminar?");
