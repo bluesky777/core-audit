@@ -4,9 +4,19 @@ import { Link } from "react-router-dom";
 import request from "../data/api";
 // import { toast } from "react-toastify";
 import { IglesiasRepo } from "../data/repositories/IglesiasRepo";
+import Select from "react-select";
+
+
+type IglesiaType = {
+  id: Number,
+  nombre: String,
+  codigo: String,
+}
 
 const Iglesias = ({ history }) => {
-  const [iglesias, setIglesias] = useState([]);
+  const [iglesias, setIglesias] = useState<IglesiaType>([]);
+  const [distritos, setDistritos] = useState([]);
+
   const user = useSelector(state => state.AuthReducer.user)
   console.log(user)
 
@@ -14,17 +24,14 @@ const Iglesias = ({ history }) => {
     async () => {
       if (!user) return
       
-      const datosIglesias = [];
       console.log(user)
 
-      const snapshots = await IglesiasRepo(request).get(user.asociacion_id);
-      //   snapshots.docs.forEach((snap) => {
-      //     datosIglesias.push({
-      //       id: snap.id,
-      //       ...snap.data(),
-      //     });
-      //   });
-      setIglesias(datosIglesias);
+      let res = await IglesiasRepo(request).get(user.asociacion_id);
+      res = res.data.sort();
+      const datosDistritos = res.map((distri) => {
+        return {...distri, value: distri.id, label: distri.nombre}
+      })
+      setDistritos(datosDistritos);
     },
     [user],
   )
@@ -46,6 +53,10 @@ const Iglesias = ({ history }) => {
     }
   };
 
+  const onSelectDistrito = (distrito)=>{
+    setIglesias(distrito.iglesias)
+  }
+
   return (
     <div className="card">
       <div className="card-body">
@@ -53,6 +64,9 @@ const Iglesias = ({ history }) => {
         <Link className="btn btn-primary" to="/iglesias/add">
           Crear
         </Link>
+
+        <Select options={distritos} onChange={onSelectDistrito} />
+
         <table className="table table-sn">
           <thead>
             <tr>
