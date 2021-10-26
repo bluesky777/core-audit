@@ -1,5 +1,6 @@
 {
     "globals": {
         "JSX": true
-    }
+    },
+    "parser": "babel-eslint"
 }

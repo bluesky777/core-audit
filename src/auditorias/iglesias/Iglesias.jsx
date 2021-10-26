@@ -1,24 +1,19 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, FC } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import request from "../data/api";
 // import { toast } from "react-toastify";
 import { IglesiasRepo } from "../data/repositories/IglesiasRepo";
 import Select from "react-select";
+import { LocationState  } from "history"
 
 
-type IglesiaType = {
-  id: Number,
-  nombre: String,
-  codigo: String,
-}
 
 const Iglesias = ({ history }) => {
-  const [iglesias, setIglesias] = useState<IglesiaType>([]);
+  const [iglesias, setIglesias] = useState([]);
   const [distritos, setDistritos] = useState([]);
 
   const user = useSelector(state => state.AuthReducer.user)
-  console.log(user)
 
   const traerDatos = useCallback(
     async () => {
@@ -32,6 +27,11 @@ const Iglesias = ({ history }) => {
         return {...distri, value: distri.id, label: distri.nombre}
       })
       setDistritos(datosDistritos);
+      if (localStorage.getItem('distrito_id-item-selected')){
+        const distr_id = parseInt(localStorage.getItem('distrito_id-item-selected'))
+        const distriFound = datosDistritos.find((elem) => elem.id == distr_id)
+        setIglesias(distriFound.iglesias)
+      }
     },
     [user],
   )
@@ -55,6 +55,7 @@ const Iglesias = ({ history }) => {
 
   const onSelectDistrito = (distrito)=>{
     setIglesias(distrito.iglesias)
+    localStorage.setItem('distrito_id-item-selected', distrito.id)
   }
 
   return (
@@ -65,8 +66,10 @@ const Iglesias = ({ history }) => {
           Crear
         </Link>
 
-        <Select options={distritos} onChange={onSelectDistrito} />
-
+        <div style={{'margin': '10px 0px'}}>
+          <label>Distrito</label>
+          <Select options={distritos} onChange={onSelectDistrito} />
+        </div>
         <table className="table table-sn">
           <thead>
             <tr>
@@ -80,25 +83,25 @@ const Iglesias = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {iglesias.map((iglesias, index) => (
-              <tr key={iglesias.id}>
+            {iglesias.map((iglesia, index) => (
+              <tr key={iglesia.id}>
                 <td>{index + 1}</td>
-                <td>{iglesias.nombre}</td>
-                <td>{iglesias.codigo}</td>
-                <td>{iglesias.distrito_id}</td>
-                <td>{iglesias.tipo}</td>
-                <td>{iglesias.zona}</td>
+                <td>{iglesia.nombre}</td>
+                <td>{iglesia.codigo}</td>
+                <td>{iglesia.distrito_id}</td>
+                <td>{iglesia.tipo}</td>
+                <td>{iglesia.zona}</td>
                 <td>
                   <button
                     onClick={() => {
-                      history.push(`/iglesias/edit/${iglesias.id}`);
+                      history.push(`/iglesias/edit/${iglesia.id}`);
                     }}
                     className="btn btn-success btn-sm"
                   >
-                    <i className="cil-peniel"></i>
+                    <i className="cil-pen"></i>
                   </button>
                   <button
-                    onClick={() => eliminar(iglesias.id)}
+                    onClick={() => eliminar(iglesia.id)}
                     className="btn btn-danger btn-sm"
                   >
                     <i className="cil-trash"></i>
